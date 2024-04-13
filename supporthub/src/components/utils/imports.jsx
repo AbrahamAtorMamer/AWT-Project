@@ -1,0 +1,12 @@
+import React from "react";
+import "../../App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBarHook from "../NavBarHook/NavBarHook";
+import HomePage from "../pages/Home/HomePage";
+import LoginPage from "../pages/LoginPage/LoginPage";
+import RegistrationForm from '../Auth/Signup/RegistrationForm';
+import CreateCampaign from '../Campaign/CreateCampaign';
+import LoginForm from '../Auth/Login/LoginForm';
+import RegistrationPage from "../pages/SignupPage/RegistrationPage";
+import BasicContent from "../Campaign/BasicContent";
+import PrivateRoute from "../../PrivateRoute";
