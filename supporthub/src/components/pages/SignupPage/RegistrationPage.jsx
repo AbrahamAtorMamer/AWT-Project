@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { Alert, Form, Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import axios from "axios";
+import {
+    Card,
+    Input,
+    Checkbox,
+    Button,
+    Typography,
+} from "@material-tailwind/react";
 
 const RegistrationPage = () => {
     const initialFormData = {
@@ -15,7 +21,7 @@ const RegistrationPage = () => {
 
     const [formData, setFormData] = useState(initialFormData);
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState(false);
+    const [success, setSuccess] = useState(false); // State for showing success message
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,98 +35,72 @@ const RegistrationPage = () => {
 
             const response = await axios.post('http://localhost:3000/users/register', formDataWithoutConfirmPassword);
             console.log('Data posted:', response.data);
-            setFormData({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
+            setSuccess(true); // Set success state to true upon successful registration
+            setFormData(initialFormData); // Reset form data
         } catch (error) {
             console.error('Error posting data:', error);
+            setError('Registration failed. Please try again.'); // Set error message if registration fails
         }
     };
 
-
     return (
-
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-
-            <div>
-                {success && (
+        <div className="flex justify-center items-center h-screen">
+            <Card color="transparent" shadow={false}>
+                <Typography variant="h4" color="blue-gray">
+                    Sign Up
+                </Typography>
+                <Typography color="gray" className="mt-1 font-normal">
+                    Nice to meet you! Enter your details to register.
+                </Typography>
+                {success && ( // Display success message if registration is successful
                     <Alert variant="success" onClose={() => setSuccess(false)} dismissible>
                         Registration successful!
                     </Alert>
                 )}
-                <Form onSubmit={handleSubmit}>
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formBasicFirstName">
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter first name"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                autoFocus
-                            />
-                        </Form.Group>
-
-                        <Form.Group as={Col} controlId="formBasicLastName">
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter last name"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </Row>
-
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="Enter email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </Row>
-
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </Row>
-                    <Row className='mb-3'>
-                        <Form.Group as={Col} controlId="formBasicConfirmPassword">
-                            <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Confirm Password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </Row>
-
-                    {error && <div className="text-danger">{error}</div>}
-                </Form>
-                <div style={{ textAlign: 'center', marginBottom: '10px' }} className="d-grid gap-2">
-                    <Button style={{ textAlign: 'center', marginBottom: '10px' }} variant="primary" size="lg" onClick={handleSubmit}>
-                        Register
+                <form onSubmit={handleSubmit} className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+                    {/* Input fields */}
+                    <div className="mb-1 flex flex-col gap-6">
+                        <Input
+                            size="lg"
+                            label="First Name"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            autoFocus
+                        />
+                        <Input
+                            size="lg"
+                            label="Last Name"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                        />
+                        <Input label="Email" size="lg" value={formData.email} onChange={handleChange}
+                        />
+                        <Input
+                            type="password"
+                            size="lg"
+                            label="Password"
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                        <Input
+                            type="password"
+                            size="lg"
+                            label="Confirm Password"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    {/* Checkbox for Terms and Conditions */}
+                    {error && <div className="text-danger">{error}</div>} {/* Display error message if registration fails */}
+                    <Button className="mt-6" fullWidth onClick={handleSubmit}>
+                        Sign Up
                     </Button>
-                </div>
-                <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    <Link to="/login">Have an account? Click Here</Link>
-                </div>
-            </div>
+                    <Typography color="gray" className="mt-4 text-center font-normal">
+                        Already have an account?{' '}
+                        <Link to="/login">Sign In</Link>
+                    </Typography>
+                </form>
+            </Card>
         </div>
     );
 }

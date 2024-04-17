@@ -1,10 +1,10 @@
- require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config();
 const MYSQL_DB_CONFIG = {
-  HOST: process.env.HOST,
-  USER: process.env.USER,
-  PORT: process.env.PORT,
-  PASSWORD: process.env.PASSWORD,
-  DB: process.env.DB,
+  HOST: process.env.DB_HOST,
+  USER: process.env.DB_USER,
+  PORT: parseInt(process.env.DB_PORT), // Convert port number string to integer
+  PASSWORD: process.env.DB_PASSWORD,
+  DB: process.env.DB_DATABASE,
 };
 
 module.exports = {

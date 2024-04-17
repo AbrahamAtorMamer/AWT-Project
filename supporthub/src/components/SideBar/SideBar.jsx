@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Typography, List, ListItem, Chip } from "@material-tailwind/react";
-import { HomeIcon, ShoppingBagIcon, InboxIcon, UserCircleIcon, CogIcon } from "@heroicons/react/24/solid";
-
+import { HomeIcon, ShoppingBagIcon, InboxIcon, UserCircleIcon, CogIcon } from "@heroicons/react/24/solid"; 
 const SideBar = ({ onItemClick }) => {
   return (
     <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
