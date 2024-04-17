@@ -56,12 +56,12 @@ async function create(params) {
   const hashedPassword = await bcrypt.hash(params.password, 10); // 10 is the saltRounds
 
   // Create a new user with the hashed password
-  const newUser = new db.User({ email: params.email, password: hashedPassword,firstName: params.firstName,lastName:params.lastName, });
+  const newUser = new db.User({ email: params.email, password: hashedPassword, firstName: params.firstName, lastName: params.lastName, });
 
   // Save the user to the database
   await newUser.save()
-  
-  
+
+
   return newUser;
 }
 
@@ -78,27 +78,27 @@ async function changeStatus(id) {
     // ret_msg = 'Camp Activated';
   }
   await User.save()
-  // return success if the new user is added to the database successfully
-  .then((result) => {
-    response.status(201).send({
-      message: "User Created Successfully",
-      result,
-    });
-  })
-  // catch error if the new user wasn't added successfully to the database
-  .catch((error) => {
-    response.status(500).send({
-      message: "Error creating user",
-      error,
-    });
-  })
-      // catch error if the password hash isn't successful
-  .catch((e) => {
-        response.status(500).send({
-          message: "Password was not hashed successfully",
-          e,
-        });
+    // return success if the new user is added to the database successfully
+    .then((result) => {
+      response.status(201).send({
+        message: "User Created Successfully",
+        result,
       });
+    })
+    // catch error if the new user wasn't added successfully to the database
+    .catch((error) => {
+      response.status(500).send({
+        message: "Error creating user",
+        error,
+      });
+    })
+    // catch error if the password hash isn't successful
+    .catch((e) => {
+      response.status(500).send({
+        message: "Password was not hashed successfully",
+        e,
+      });
+    });
   return User;
 }
 async function searchByKeyword(searchKeyword) {
@@ -114,10 +114,10 @@ async function getUser(id) {
   if (!User) return "User not found";
   return User;
 }
-async function del(did){
+async function del(did) {
   return await db.User.destroy({
-    where:{
-      id:did
+    where: {
+      id: did
     }
   });
 }
@@ -126,7 +126,7 @@ async function login(email, password) {
   try {
     // Find the user by email
     const user = await db.User.findOne({ where: { email } });
-    
+
     if (!user) {
       throw new Error('Email not found');
     }
@@ -144,7 +144,7 @@ async function login(email, password) {
         userId: user._id,
         userEmail: user.email,
       },
-      process.env.JWT_SECRET, // Replace with your secret key for signing the token
+      process.env.JWT_SECRET,
       { expiresIn: "24h" } // Token expiration time
     );
 

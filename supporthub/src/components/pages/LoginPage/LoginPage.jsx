@@ -40,6 +40,11 @@ const LoginPage = () => {
       // Make the API call
       const response = await axios(configuration);
       console.log(response);
+      // Extract the token from the response
+      const token = response.data.token;
+       console.log(token);
+      // Store the token in local storage
+      localStorage.setItem('jwtToken', token);
 
       // Redirect to home page if login is successful
       navigate('/');
