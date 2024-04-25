@@ -21,6 +21,17 @@ function model(sequelize) {
         type: DataTypes.STRING,
         allowNull: false
       },
+      campaign_id: {
+        type: DataTypes.INTEGER, 
+        allowNull: true, 
+        references: {
+          model: Campaign, 
+          key: 'campaign_id' 
+        }
+      }
+  };
+  Funding.associate = (models) => {
+    Funding.belongsTo(models.Campaign, { foreignKey: 'campaign_id' });
   };
   return sequelize.define("funding", attributes);
 }

@@ -28,28 +28,49 @@ async function getById(id, callback) {
       return callback(error);
     });
 }
-async function update(id, params) {
-  const Campaign = await getCampaign(id);
-  const nameChanged = params.Campaign_name && params.campaign_name !== Campaign.campaign_name;
-  if (
-    nameChanged &&
-    (await db.Campaign.findOne({ where: { campaign_name: params.campaign_name } }))
-  ) {
-    return "Campaign with name " + params.campaign_name + " is already exists";
-  }
-  Object.assign(Campaign, params);
-  await Campaign.save();
-  return Campaign;
-}
 async function create(params) {
-  if (await db.Campaign.findOne({ where: { campaign_name: params.campaign_name } })) {
-    return "Campaign " + params.campaign_name + " is already exists";
+  const { funding_id, ...campaignParams } = params;
+  const existingCampaign = await db.Campaign.findOne({ where: { campaign_name: campaignParams.campaign_name } });
+  if (existingCampaign) {
+    return "Campaign " + campaignParams.campaign_name + " already exists";
   }
-  const Campaign = new db.Campaign(params);
 
-  await Campaign.save();
-  return Campaign;
+  let campaign;
+  try {
+    campaign = await db.Campaign.create(campaignParams);
+    if (funding_id) {
+      const funding = await db.Funding.findByPk(funding_id);
+      if (funding) {
+        await campaign.setFunding(funding);
+      }
+    }
+    return campaign;
+  } catch (error) {
+    return error;
+  }
 }
+
+async function update(id, params) {
+  const { funding_id, ...campaignParams } = params;
+  const campaign = await getCampaign(id);
+  if (!campaign) {
+    return "Campaign not found";
+  }
+
+  try {
+    if (funding_id) {
+      const funding = await db.Funding.findByPk(funding_id);
+      if (funding) {
+        await campaign.setFunding(funding);
+      }
+    }
+    await campaign.update(campaignParams);
+    return campaign;
+  } catch (error) {
+    return error;
+  }
+}
+
 async function changeStatus(id) {
   const Campaign = await getCampaign(id);
   //    const ret_msg = '';

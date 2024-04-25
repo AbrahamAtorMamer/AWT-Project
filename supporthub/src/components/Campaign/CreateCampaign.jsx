@@ -10,6 +10,7 @@ import {
   CardFooter,
   Typography,
   Button,
+  Row,
 } from "@material-tailwind/react";
 
 
@@ -68,12 +69,12 @@ class CreateCampaign extends Component {
   renderBasicContent = () => {
     return (
       <div className="container" >
-        <h2>Basics</h2>
-        <p className="para-left">
+        <h1 style={{ textAlign: 'center', fontSize: '24px' }}>Basic Details</h1>
+        {/* <p className="para-left">
           Make a good first impression: introduce your campaign objectives and entice people to learn more. This basic information will represent your campaign on your campaign page, on your campaign card, and in searches.
-        </p>
+        </p> */}
         <form>
-          <div className="form-group">
+          <div className="form-group" style={{ width: '700px' }}>
             <label className="label-left" htmlFor="campaignName">Campaign Title<span className="required">*</span></label>
             <p className="para-left">What is the title of your campaign?</p>
             <input
@@ -85,7 +86,7 @@ class CreateCampaign extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group" style={{ width: '700px' }}>
             <label className="label-left" htmlFor="campaignDescription">Campaign Description<span className="required">*</span></label>
             <p className="para-left">Provide a short description that best describes your campaign to your audience.</p>
             <textarea
@@ -115,7 +116,7 @@ class CreateCampaign extends Component {
           </div>
 
 
-          <div className="form-group">
+          <div className="form-group" style={{ width: '700px' }}>
             <label className="label-left" htmlFor="campaignLocation">
               Location<span className="required">*</span>
             </label>
@@ -138,9 +139,9 @@ class CreateCampaign extends Component {
                 </option>
               ))}
             </select>
-          </div>;
+          </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ width: '400px' }}>
             <label className="label-left" htmlFor="campaignCategory">Category<span className="required">*</span></label>
             <p className="para-left">To help backers find your campaign, select a category that best represents your project.</p>
             <select
@@ -156,9 +157,10 @@ class CreateCampaign extends Component {
               {/* Add more options for categories */}
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group" >
             <label className="label-left" htmlFor="campaignDuration">Campaign Duration (in days)<span className="required">*</span></label>
-            <p className="para-left">How many days will you be running your campaign for? You can run a campaign for any number of days, with a 60 day duration maximum.</p>
+            {/* <p className="para-left">How many days will you be running your campaign for? You can run a campaign for any number of days, with a 60 day duration maximum.</p> */}
+            <div style={{ width: '200px', height: '100px' }}>
             <input
               type="number"
               className="form-control"
@@ -167,10 +169,11 @@ class CreateCampaign extends Component {
               value={this.state.campaignDuration}
               onChange={this.handleChange}
             />
+            </div>
           </div>
           {/* Add more input fields for other basic information */}
         </form>
-        <Button color="blue" ripple="light">Next</Button>
+        <Button color="blue" >Save & Continue</Button>
       </div>
     );
   };
@@ -299,7 +302,8 @@ class CreateCampaign extends Component {
           <div className="form-group">
             <label className="label-left">Who are you raising money for?<span className="required">*</span></label>
             <p className="para-left">Choose the type of account that will be receiving your funds.</p>
-            <div>
+            <div className="row">
+            <div style={{ marginRight: '10px' }}>
               <input
                 type="radio"
                 id="businessType1"
@@ -309,7 +313,7 @@ class CreateCampaign extends Component {
               />
               <label className="lll" htmlFor="businessType1">Individual</label>
             </div>
-            <div>
+            <div style={{ marginRight: '10px' }}>
               <input
                 type="radio"
                 id="businessType2"
@@ -319,8 +323,9 @@ class CreateCampaign extends Component {
               />
               <label htmlFor="businessType2">Business or Non Profit</label>
             </div>
+            </div>
           </div>
-          <div className="form-group">
+          <div className="form-group" style={{ width: '200px', height: '100px', backgroundColor: 'lightblue' }}>
             <label>Location<span className="required">*</span></label>
             <select
               className="form-control"
@@ -328,6 +333,7 @@ class CreateCampaign extends Component {
               name="fundingLocation"
               value={this.state.fundingLocation}
               onChange={this.handleChange}
+              style={{ fontSize: '14px', padding: '5px' }}
             >
               <option value="">Select Country</option>
               {this.state.countries.map((country, index) => (
@@ -338,7 +344,7 @@ class CreateCampaign extends Component {
             </select>
 
           </div>
-          <div className="form-group">
+          <div className="form-group" style={{ width: '200px', height: '100px', backgroundColor: 'lightblue' }}>
             <label>Bank Account Location<span className="required">*</span></label>
             <select
               className="form-control"
@@ -356,7 +362,7 @@ class CreateCampaign extends Component {
             </select>
           </div>
         </form>
-        <Button color="blue" ripple="light">Next</Button>
+        <Button color="blue" >Save & Continue</Button>
       </div>
     );
   };
@@ -387,226 +393,4 @@ class CreateCampaign extends Component {
 }
 
  export default CreateCampaign;
-// import React, { Component } from "react";
-// import SideBar from "../SideBar/SideBar";
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
-// import { Card, Typography, Chip, Button } from "@material-tailwind/react";
-// import { HomeIcon, ShoppingBagIcon, InboxIcon, UserCircleIcon, CogIcon } from "@heroicons/react/24/solid";
-// import "./Campaign.css"
 
-// class CreateCampaign extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       activeItem: "basic", // Default active item is 'basic'
-//       // Your state variables here for each section
-//       campaignName: "",
-//       campaignDescription: "",
-//       campaignCardImage: "",
-//       campaignLocation: "",
-//       campaignCategory: "",
-//       campaignDuration: "",
-//       teamFirstName: "",
-//       teamLastName: "",
-//       teamDOB: "",
-//       teamPhoneNumber: "",
-//       teamCountry: "",
-//       teamAddress: "",
-//       fundingAmount: "",
-//       storyContent: '',
-//       countries: [], // Array to store the list of countries
-//     };
-//   }
-
-//   componentDidMount() {
-//     // Fetch the list of countries when the component mounts
-//     fetch("https://restcountries.com/v3.1/all")
-//       .then((response) => response.json())
-//       .then((data) => {
-//         // Extract country names from the data and store them in the state
-//         const countryNames = data.map((country) => country.name.common);
-//         // Sort the country names alphabetically
-//         countryNames.sort();
-//         this.setState({ countries: countryNames });
-//       })
-//       .catch((error) => {
-//         console.error("Error fetching countries:", error);
-//       });
-//   }
-
-//   handleStoryChange = (content) => {
-//     this.setState({ storyContent: content });
-//   };
-
-//   handleItemClick = (itemName) => {
-//     this.setState({ activeItem: itemName });
-//   };
-
-//   handleChange = (e) => {
-//     this.setState({ [e.target.name]: e.target.value });
-//   };
-
-//   renderBasicContent = () => {
-//     return (
-//       <div className="container">
-//         <h2>Basics</h2>
-//         <p className="para-left">
-//           Make a good first impression: introduce your campaign objectives and entice people to learn more. This basic information will represent your campaign on your campaign page, on your campaign card, and in searches.
-//         </p>
-//         <form>
-//           <div className="form-group mb-4">
-//             <label htmlFor="campaignName">Campaign Title<span className="required">*</span></label>
-//             <input
-//               type="text"
-//               className="input mb-2 border-0"
-//               id="campaignName"
-//               name="campaignName"
-//               value={this.state.campaignName}
-//               onChange={this.handleChange}
-//               placeholder="Enter campaign title"
-//             />
-//           </div>
-//           <div className="form-group mb-4">
-//             <label htmlFor="campaignDescription">Campaign Description<span className="required">*</span></label>
-//             <textarea
-//               className="textarea mb-2 border-0"
-//               id="campaignDescription"
-//               name="campaignDescription"
-//               value={this.state.campaignDescription}
-//               onChange={this.handleChange}
-//               placeholder="Enter campaign description"
-//             ></textarea>
-//           </div>
-//           <div className="form-group mb-4">
-//             <label htmlFor="campaignCardImage" className="label-left">
-//               Campaign Card Image<span className="required">*</span>:
-//             </label>
-//             <input
-//               type="file"
-//               id="campaignCardImage"
-//               name="campaignCardImage"
-//               onChange={this.handleImageChange}
-//               className="border-0"
-//             />
-//           </div>
-//           <div className="form-group mb-4">
-//             <label htmlFor="campaignLocation">Location<span className="required">*</span></label>
-//             <select
-//               className="input mb-2 border-0"
-//               id="campaignLocation"
-//               name="campaignLocation"
-//               value={this.state.campaignLocation}
-//               onChange={this.handleChange}
-//             >
-//               <option value="">Select Location</option>
-//               {this.state.countries.map((country, index) => (
-//                 <option key={index} value={country}>
-//                   {country}
-//                 </option>
-//               ))}
-//             </select>
-//           </div>
-//           <div className="form-group mb-4">
-//             <label htmlFor="campaignCategory">Category<span className="required">*</span></label>
-//             <select
-//               className="input mb-2 border-0"
-//               id="campaignCategory"
-//               name="campaignCategory"
-//               value={this.state.campaignCategory}
-//               onChange={this.handleChange}
-//             >
-//               <option value="">Select Category</option>
-//               <option value="Category 1">Category 1</option>
-//               <option value="Category 2">Category 2</option>
-//             </select>
-//           </div>
-//           <div className="form-group mb-4">
-//             <label htmlFor="campaignDuration">Campaign Duration (in days)<span className="required">*</span></label>
-//             <input
-//               type="number"
-//               className="input mb-2 border-0"
-//               id="campaignDuration"
-//               name="campaignDuration"
-//               value={this.state.campaignDuration}
-//               onChange={this.handleChange}
-//               placeholder="Enter campaign duration"
-//             />
-//           </div>
-          
-//         </form>
-//         <Button color="blue" ripple="light">Save</Button>
-//       </div>
-//     );
-//   };
-
-//   renderContentContent = () => {
-//     return (
-//       <div className="content-container">
-//         <h2>Content</h2>
-//         <div>
-//         {/* Add content section */}
-//         <label htmlFor="">Story<span className="required">*</span></label>
-//         <ReactQuill
-//           theme="snow"
-//           value={this.state.storyContent}
-//           onChange={this.handleStoryChange}
-//           placeholder="Write something amazing..."
-//           className="story-input"
-//         />
-//         </div>
-//         <Button color="blue" ripple="light">Save</Button>
-//       </div>
-//     );
-//   };
-
-//   renderTeamContent = () => {
-//     return (
-//       <div className="content-container team-content">
-//         <h2>Team</h2>
-//         {/* Add team section */}
-//         <form>
-//           {/* Add input fields for team information using Material Tailwind */}
-//           <Button color="blue" ripple="light">Save</Button>
-//         </form>
-//       </div>
-//     );
-//   };
-
-//   renderFundingContent = () => {
-//     return (
-//       <div className="content-container funding-content">
-//         <h2>Funding</h2>
-//         <form action="">
-//           {/* Add input fields for funding details using Material Tailwind */}
-//           <Button color="blue" ripple="light">Save</Button>
-//         </form>
-//       </div>
-//     );
-//   };
-
-//   render() {
-//     return (
-//       <div className="container-fluid">
-//         {/* Include the sidebar component */}
-//         <div className="row">
-//           <div className="col-md-3">
-//             <SideBar
-//               activeItem={this.state.activeItem}
-//               onItemClick={this.handleItemClick}
-//             />
-//           </div>
-//           <div className="col-md-9">
-//             {/* Render content based on active item */}
-//             {this.state.activeItem === "basic" && this.renderBasicContent()}
-//             {this.state.activeItem === "content" && this.renderContentContent()}
-//             {this.state.activeItem === "team" && this.renderTeamContent()}
-//             {this.state.activeItem === "funding" && this.renderFundingContent()}
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
-// export default CreateCampaign;

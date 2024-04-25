@@ -10,19 +10,19 @@ const SideBar = ({ onItemClick }) => {
         </Typography>
       </div>
       <List>
-        <ListItem onClick={() => onItemClick("dashboard")}>
+        {/* <ListItem onClick={() => onItemClick("dashboard")}>
           <HomeIcon className="h-5 w-5" />
           Home
-        </ListItem>
+        </ListItem> */}
         <ListItem onClick={() => onItemClick("basic")}>
           <ShoppingBagIcon className="h-5 w-5" />
           Basic Content
         </ListItem>
-        <ListItem onClick={() => onItemClick("content")}>
+        {/* <ListItem onClick={() => onItemClick("content")}>
           <InboxIcon className="h-5 w-5" />
           Content Description
           <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-        </ListItem>
+        </ListItem> */}
         <ListItem onClick={() => onItemClick("team")}>
           <UserCircleIcon className="h-5 w-5" />
           Team Information

@@ -31,12 +31,12 @@ async function initialize() {
   db.User = require("../profile/user.model")(
     sequelize
   );
-  //db.Contribution = require("../contribution/contribution.model")(
-    //sequelize
-  //);
-  //db.Profile = require("../profile/profile.model")
-  //db.Category.hasMany(db.Product);
- // db.Product.belongsTo(db.Category)
+  // Import Campaign and Funding models
+  const Campaign = require("../campaign/campaign.model")(sequelize);
+  const Funding = require("../funding/funding.model")(sequelize);
 
+  // Define associations
+  Campaign.hasOne(Funding, { foreignKey: 'campaign_id' });
+  Funding.belongsTo(Campaign, { foreignKey: 'campaign_id' });
   await sequelize.sync({ alter: true });
 }
