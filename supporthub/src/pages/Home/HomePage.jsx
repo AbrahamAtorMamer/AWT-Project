@@ -1,5 +1,5 @@
 import React from 'react'
-import cybertruck from '../../../assets/images/powerwall.jpeg';
+import cybertruck from '../../assets/images/powerwall.jpeg';
 import {
   Card,
   CardHeader,

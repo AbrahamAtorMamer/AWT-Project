@@ -8,6 +8,7 @@ import {
   IconButton
 } from "@material-tailwind/react";
 import logo from '../../assets/images/S.png';
+import LogoutButton from '../Auth/Login/LoginButton';
 
 const NavBar = () => {
   const [openNav, setOpenNav] = React.useState(false);
@@ -18,61 +19,6 @@ const NavBar = () => {
       () => window.innerWidth >= 960 && setOpenNav(false),
     );
   }, []);
-
-  const navList = (
-    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        {/* Use NavLink instead of anchor tag */}
-        <NavLink to="/create-campaign" className="flex items-center">
-          Create Campaign
-        </NavLink>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        {/* Use NavLink instead of anchor tag */}
-        <NavLink to="/registration" className="flex items-center">
-          Account
-        </NavLink>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        {/* Use NavLink instead of anchor tag */}
-        <NavLink to="/login" className="flex items-center">
-        <Button
-                variant="text"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Log In</span>
-              </Button>
-        </NavLink>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        {/* Use NavLink instead of anchor tag */}
-        <NavLink to="/docs" className="flex items-center">
-          Docs
-        </NavLink>
-      </Typography>
-    </ul>
-  );
 
   return (
     <div className="-m-6 max-h-[768px] w-[calc(100%+48px)] overflow-scroll">
@@ -88,22 +34,23 @@ const NavBar = () => {
           </NavLink>
           </Typography>
           <div className="flex items-center gap-4">
-            <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="flex items-center gap-x-1">
-              <Button
-                variant="text"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Log In</span>
-              </Button>
-              <Button
-                variant="gradient"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Sign in</span>
-              </Button>
+            <NavLink to="/create-campaign" className="flex items-center">
+            <Button fullWidth variant="text" size="sm" className="">
+              <span>Campaign</span>
+            </Button>
+            </NavLink>
+            <NavLink to="/login" className="flex items-center">
+            <Button fullWidth variant="text" size="sm" className="">
+              <span>Log In</span>
+            </Button>
+            </NavLink>
+            <NavLink to="/registration" className="flex items-center">
+            {/* <Button fullWidth variant="gradient" size="sm" className="">
+              <span>Sign in</span>
+            </Button> */}
+            <LogoutButton/>
+            </NavLink>
             </div>
             <IconButton
               variant="text"
@@ -145,14 +92,22 @@ const NavBar = () => {
           </div>
         </div>
         <Collapse open={openNav}>
-          {navList}
           <div className="flex items-center gap-x-1">
+          <NavLink to="/create-campaign" className="flex items-center">
+            <Button fullWidth variant="text" size="sm" className="">
+              <span>Campaign</span>
+            </Button>
+            </NavLink>
+            <NavLink to="/login" className="flex items-center">
             <Button fullWidth variant="text" size="sm" className="">
               <span>Log In</span>
             </Button>
+            </NavLink>
+            <NavLink to="/registration" className="flex items-center">
             <Button fullWidth variant="gradient" size="sm" className="">
               <span>Sign in</span>
             </Button>
+            </NavLink>
           </div>
         </Collapse>
       </Navbar>

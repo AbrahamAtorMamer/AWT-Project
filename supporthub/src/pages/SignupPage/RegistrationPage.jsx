@@ -23,9 +23,11 @@ const RegistrationPage = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false); // State for showing success message
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+};
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();

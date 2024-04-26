@@ -1,19 +1,16 @@
-import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import React from 'react'
+import { Outlet, Navigate } from 'react-router-dom'
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Navigate to="/login" />
-        )
-      }
-    />
-  );
-};
 
-export default PrivateRoute;
+
+export default function PrivateRoutes() {
+    // Check if user has JWT token
+  const isAuthenticated = localStorage.getItem("token") ? true : false;
+    return (
+        <>
+            {isAuthenticated ? <Outlet  /> : <Navigate to="/login" />};
+        </>
+
+    )
+
+    }

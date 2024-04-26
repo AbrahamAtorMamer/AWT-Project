@@ -12,6 +12,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import axios from "axios";
+import {setAuthToken} from '../../helpers/setAuthToken'
 
 const LoginPage = () => {
   // Initialize state variables
@@ -23,40 +24,42 @@ const LoginPage = () => {
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
-    // Prevent the form from refreshing the whole page
     e.preventDefault();
-
+  
+    const loginPayload = {
+      email: email,
+      password: password
+    };
+  
     try {
-      // Set configurations
-      const configuration = {
-        method: "post",
-        url: "http://localhost:3000/users/login",
-        data: {
-          email,
-          password,
-        },
-      };
-
-      // Make the API call
-      const response = await axios(configuration);
-      console.log(response);
-      // Extract the token from the response
-      const token = response.data.token;
-       console.log(token);
-      // Store the token in local storage
-      localStorage.setItem('jwtToken', token);
-
-      // Redirect to home page if login is successful
+      const response = await axios.post("http://localhost:3000/users/login", loginPayload);
+  
+      // Check if the response includes the token
+      if (!response.data || !response.data.data || !response.data.data.token) {
+        throw new Error("Token is missing in response");
+      }
+  
+      const token = response.data.data.token;
+  
+      // Set token to local storage
+      localStorage.setItem("token", token);
+      console.log('After the localStorage.setItem')
+      console.log(token)
+      // Set token to axios common header
+      setAuthToken(token);
+      console.log('After the setAuthToken')
+      console.log(token)
+  
+      // Redirect user to home page
       navigate('/');
-
+    } catch (error) {
+      console.error("Error:", error);
+      setError('Incorrect email or password');
       // Show success toast
       setShowSuccessToast(true);
-    } catch (error) {
-      console.error(error);
-      // Handle incorrect email/password error
-      setError('Incorrect email or password');
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center h-screen">

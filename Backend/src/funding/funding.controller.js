@@ -1,4 +1,4 @@
-const fundingService = require('./funding.service');
+const fundingService = require('./funding.services');
 
 module.exports = {
   create,

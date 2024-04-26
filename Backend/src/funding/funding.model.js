@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-
+const Campaign = require("../campaign/campaign.model");
 module.exports = model;
 
 function model(sequelize) {
@@ -21,19 +21,12 @@ function model(sequelize) {
         type: DataTypes.STRING,
         allowNull: false
       },
-      campaign_id: {
-        type: DataTypes.INTEGER, 
-        allowNull: true, 
-        references: {
-          model: Campaign, 
-          key: 'campaign_id' 
-        }
-      }
   };
-  Funding.associate = (models) => {
-    Funding.belongsTo(models.Campaign, { foreignKey: 'campaign_id' });
-  };
-  return sequelize.define("funding", attributes);
-}
 
+  const Funding = sequelize.define("funding", attributes)
+  Funding.associate = () => {
+    Funding.belongsTo(Campaign);
+  };
+  return Funding;
+}
 

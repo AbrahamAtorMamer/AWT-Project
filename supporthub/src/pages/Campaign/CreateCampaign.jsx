@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SideBar from "../SideBar/SideBar";
+import SideBar from "../../components/SideBar/SideBar";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import "./Campaign.css"
@@ -20,7 +20,6 @@ class CreateCampaign extends Component {
     super(props);
     this.state = {
       activeItem: "basic", // Default active item is 'basic'
-      // Your state variables here for each section
       campaignName: "",
       campaignDescription: "",
       campaignCardImage: "",
@@ -204,7 +203,7 @@ class CreateCampaign extends Component {
 
   renderTeamContent = () => {
     return (
-      <div className="content-container team-content">
+      <div className="container">
         <h2>Team</h2>
         {/* Add team section */}
         <form>
@@ -296,7 +295,7 @@ class CreateCampaign extends Component {
 
   renderFundingContent = () => {
     return (
-      <div className="content-container funding-content">
+      <div className="container">
         <h2>Funding</h2>
         <form action="">
           <div className="form-group">
@@ -325,7 +324,7 @@ class CreateCampaign extends Component {
             </div>
             </div>
           </div>
-          <div className="form-group" style={{ width: '200px', height: '100px', backgroundColor: 'lightblue' }}>
+          <div className="form-group" style={{ width: '200px' }}>
             <label>Location<span className="required">*</span></label>
             <select
               className="form-control"
@@ -344,7 +343,7 @@ class CreateCampaign extends Component {
             </select>
 
           </div>
-          <div className="form-group" style={{ width: '200px', height: '100px', backgroundColor: 'lightblue' }}>
+          <div className="form-group" style={{ width: '200px' }}>
             <label>Bank Account Location<span className="required">*</span></label>
             <select
               className="form-control"
