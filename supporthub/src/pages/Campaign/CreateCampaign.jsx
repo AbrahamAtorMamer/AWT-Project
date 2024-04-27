@@ -12,6 +12,7 @@ import {
   Button,
   Row,
 } from "@material-tailwind/react";
+import NavBarHook from "../../components/NavBarHook/NavBarHook";
 
 
 
@@ -369,6 +370,8 @@ class CreateCampaign extends Component {
 
   render() {
     return (
+      <>
+      <NavBarHook/>
       <div className="container-fluid">
         {/* Include the sidebar component */}
         <div className="row">
@@ -387,6 +390,7 @@ class CreateCampaign extends Component {
           </div>
         </div>
       </div>
+      </>
     );
   }
 }

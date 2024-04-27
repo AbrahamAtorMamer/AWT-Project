@@ -37,7 +37,7 @@ const NavBar = () => {
             <div className="flex items-center gap-x-1">
             <NavLink to="/create-campaign" className="flex items-center">
             <Button fullWidth variant="text" size="sm" className="">
-              <span>Campaign</span>
+              <span>Create Campaign</span>
             </Button>
             </NavLink>
             <NavLink to="/login" className="flex items-center">
@@ -46,10 +46,10 @@ const NavBar = () => {
             </Button>
             </NavLink>
             <NavLink to="/registration" className="flex items-center">
-            {/* <Button fullWidth variant="gradient" size="sm" className="">
+            <Button fullWidth variant="gradient" size="sm" className="">
               <span>Sign in</span>
-            </Button> */}
-            <LogoutButton/>
+            </Button>
+            {/* <LogoutButton/> */}
             </NavLink>
             </div>
             <IconButton

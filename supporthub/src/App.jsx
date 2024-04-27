@@ -9,19 +9,26 @@ import RegistrationPage from "./pages/SignupPage/RegistrationPage";
 import PrivateRoute from "./PrivateRoute";
 import SideBar from "./components/SideBar/SideBar";
 import NavBar from "./components/NavBar/NavBar";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import RegistrationForm from "./components/Auth/Signup/RegistrationForm";
 
 const App = () => {
-
+  // Check if the token exists in localStorage
+  const isAuthenticated = localStorage.getItem("token") ? true : false;
   return (
     <Router>
       <Fragment>
-        <NavBar />
+        {/* {isAuthenticated && <NavBarHook />} Render NavBarHook only if authenticated */}
+        {/* <NavBar />  */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
           <Route exact element={<PrivateRoute />}>
             <Route path="/create-campaign" element={<CreateCampaign />} />
+          </Route>
+          <Route exact element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard/>} />
           </Route>
         </Routes>
       </Fragment>

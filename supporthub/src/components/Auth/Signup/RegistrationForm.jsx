@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Modal } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import NavBar from '../../NavBar/NavBar';
 
 
 const RegistrationForm = ({ onRegister }) => {
@@ -52,7 +53,7 @@ const RegistrationForm = ({ onRegister }) => {
             {/* <Button variant="outline-success me-2" onClick={handleShow}>
                 Register
             </Button> */}
-
+                <NavBar/>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Registration

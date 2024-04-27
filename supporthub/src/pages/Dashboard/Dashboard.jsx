@@ -8,13 +8,13 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-import NavBar from '../../components/NavBar/NavBar';
+import NavBarHook from '../../components/NavBarHook/NavBarHook';
 
 
-const HomePage = () => {
+const Dashboard = () => {
   return (
     <>
-      <NavBar />
+      <NavBarHook />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
         {[...Array(12)].map((_, index) => (
           <Card key={index} className="w-full">
@@ -60,4 +60,4 @@ const HomePage = () => {
   );
 }
 
-export default HomePage
+export default Dashboard

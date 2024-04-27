@@ -13,6 +13,7 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import {setAuthToken} from '../../helpers/setAuthToken'
+import NavBar from '../../components/NavBar/NavBar';
 
 const LoginPage = () => {
   // Initialize state variables
@@ -25,7 +26,11 @@ const LoginPage = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+      // Validate email and password
+      if (!email.trim() || !password.trim()) {
+        setError('Please enter both email and password');
+        return;
+    }
     const loginPayload = {
       email: email,
       password: password
@@ -50,8 +55,8 @@ const LoginPage = () => {
       console.log('After the setAuthToken')
       console.log(token)
   
-      // Redirect user to home page
-      navigate('/');
+      // Redirect user to dashboard
+      navigate('/dashboard');
     } catch (error) {
       console.error("Error:", error);
       setError('Incorrect email or password');
@@ -62,6 +67,8 @@ const LoginPage = () => {
   
 
   return (
+    <>
+    <NavBar/>
     <div className="flex justify-center items-center h-screen">
       <Card className="w-96">
         <CardHeader
@@ -75,8 +82,8 @@ const LoginPage = () => {
         </CardHeader>
         <Form onSubmit={handleSubmit}>
           <CardBody className="flex flex-col gap-4">
-            <Input label="Email" size="lg" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <Input label="Password" size="lg" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Input type='email' label="Email" size="lg" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Input type='password' label="Password" size="lg" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <Alert variant="danger">{error}</Alert>}
           </CardBody>
         </Form>
@@ -124,6 +131,7 @@ const LoginPage = () => {
         </div>
       )}
     </div>
+    </>
   );
 }
 

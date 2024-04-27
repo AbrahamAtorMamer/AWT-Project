@@ -38,5 +38,5 @@ async function initialize() {
   // Define associations
   Campaign.hasOne(Funding, { foreignKey: 'campaign_id' });
   Funding.belongsTo(Campaign, { foreignKey: 'campaign_id' });
-  await sequelize.sync({ alter: true });
+  await sequelize.sync({ alter: false });
 }
