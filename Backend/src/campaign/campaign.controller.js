@@ -1,5 +1,4 @@
 const campaign_service = require("../campaign/campaign.service");
-
 exports.create = (req, res, next) => {
   campaign_service
     .create(req.body)
@@ -11,7 +10,6 @@ exports.create = (req, res, next) => {
     )
     .catch(next);
 };
-
 exports.findAll = (req, res, next) => {
   campaign_service
     .getAll()
@@ -23,19 +21,18 @@ exports.findAll = (req, res, next) => {
     )
     .catch(next);
 };
-
 exports.findOne = (req, res, next) => {
-  campaign_service
-    .getById(req.params.id)
-    .then((response) =>
-      res.status(200).send({
+  campaign_service.getById(req.params.id, (error, response) => {
+    if (error) {
+      return next(error);
+    } else {
+      return res.status(200).send({
         message: typeof response === "string" ? "Error" : "Success",
         data: response,
-      })
-    )
-    .catch(next);
+      });
+    }
+  });
 };
-
 exports.update = (req, res, next) => {
   campaign_service
     .update(req.params.id, req.body)
@@ -47,7 +44,6 @@ exports.update = (req, res, next) => {
     )
     .catch(next);
 };
-
 exports.delete = (req, res, next) => {
   campaign_service
     .changeStatus(req.params.id)
@@ -56,7 +52,6 @@ exports.delete = (req, res, next) => {
     )
     .catch(next);
 };
-
 exports.search = (req, res, next) => {
   campaign_service
     .searchByKeyword(req.params.keyword)

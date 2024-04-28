@@ -23,10 +23,12 @@ function model(sequelize) {
       },
   };
 
-  const Funding = sequelize.define("funding", attributes)
+  const Funding = sequelize.define("Funding", attributes)
   Funding.associate = () => {
     Funding.belongsTo(Campaign);
   };
   return Funding;
+
+  //return sequelize.define("funding", attributes);
 }
 

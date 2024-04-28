@@ -8,6 +8,26 @@ module.exports = {
   delete: _delete,
 };
 
+
+// async function create(params) {
+//   // Check if user with the same email already exists
+//   // const existingCampaign = await db.Campaign.findOne({ where: { campaign_name } });
+//   // if (existingCampaign) {
+//   //   return "Campaign " + campaign_name + " already exists";
+//   // }
+
+  
+//   const newFunding = new db.Funding({ funding_type: params.funding_type, 
+//     funding_location: params.funding_location, 
+//     bank_account_location: params.bank_account_location});
+
+//   // Save the user to the database
+//   await newFunding.save()
+
+
+//   return newFunding;
+// }
+
 async function create(params) {
   const { campaign_id, ...fundingParams } = params;
   const existingFunding = await db.Funding.findOne({ where: { funding_type: fundingParams.funding_type } });

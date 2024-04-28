@@ -3,6 +3,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import "./Campaign.css"
+import axios from "axios";
 import {
   Card,
   CardHeader,
@@ -13,6 +14,7 @@ import {
   Row,
 } from "@material-tailwind/react";
 import NavBarHook from "../../components/NavBarHook/NavBarHook";
+
 
 
 
@@ -36,11 +38,26 @@ class CreateCampaign extends Component {
       fundingAmount: "",
       storyContent: '',
       countries: [], // Array to store the list of countries
+      categories: [],
+
     };
   }
-  
 
-  componentDidMount() {
+  fetchCategories() {
+    // Fetch categories from the API
+    axios.get("http://localhost:3000/category")
+      .then(response => {
+        this.setState({ categories: response.data });
+      })
+      .catch(error => {
+        console.error('Error fetching categories:', error);
+      });
+  }
+
+  handleCategoryChange(event) {
+    this.setState({ campaignCategory: event.target.value });
+  }
+  fetchCountries() {
     // Fetch the list of countries when the component mounts
     fetch("https://restcountries.com/v3.1/all")
       .then((response) => response.json())
@@ -54,6 +71,11 @@ class CreateCampaign extends Component {
       .catch((error) => {
         console.error("Error fetching countries:", error);
       });
+  }
+
+  componentDidMount() {
+    this.fetchCategories();
+    this.fetchCountries();
   }
   handleStoryChange = (content) => {
     this.setState({ storyContent: content });
@@ -149,26 +171,29 @@ class CreateCampaign extends Component {
               id="campaignCategory"
               name="campaignCategory"
               value={this.state.campaignCategory}
-              onChange={this.handleChange}
+              onChange={this.handleCategoryChange}
             >
               <option value="">Select Category</option>
-              <option value="Category 1">Category 1</option>
-              <option value="Category 2">Category 2</option>
-              {/* Add more options for categories */}
+              {/* Map through categories array to generate options */}
+              {this.state.categories.map(category => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-group" >
             <label className="label-left" htmlFor="campaignDuration">Campaign Duration (in days)<span className="required">*</span></label>
             {/* <p className="para-left">How many days will you be running your campaign for? You can run a campaign for any number of days, with a 60 day duration maximum.</p> */}
             <div style={{ width: '200px', height: '100px' }}>
-            <input
-              type="number"
-              className="form-control"
-              id="campaignDuration"
-              name="campaignDuration"
-              value={this.state.campaignDuration}
-              onChange={this.handleChange}
-            />
+              <input
+                type="number"
+                className="form-control"
+                id="campaignDuration"
+                name="campaignDuration"
+                value={this.state.campaignDuration}
+                onChange={this.handleChange}
+              />
             </div>
           </div>
           {/* Add more input fields for other basic information */}
@@ -184,23 +209,23 @@ class CreateCampaign extends Component {
         <h2>Content</h2>
         {/* Add content section */}
         <div>
-        <label className="label-left" htmlFor="">Story<span className="required">*</span></label>
-        <p className="para-left">Tell potential contributors more about your campaign. Provide details that will motivate people to contribute. A good pitch is compelling, informative, and easy to digest.</p>
-        <ReactQuill
-          theme="snow"
-          value={this.state.storyContent}
-          onChange={this.handleStoryChange}
-          placeholder="Write something amazing..."
-          className="story-input"
-          style={{ marginTop: '3rem' }} 
-        />
+          <label className="label-left" htmlFor="">Story<span className="required">*</span></label>
+          <p className="para-left">Tell potential contributors more about your campaign. Provide details that will motivate people to contribute. A good pitch is compelling, informative, and easy to digest.</p>
+          <ReactQuill
+            theme="snow"
+            value={this.state.storyContent}
+            onChange={this.handleStoryChange}
+            placeholder="Write something amazing..."
+            className="story-input"
+            style={{ marginTop: '3rem' }}
+          />
         </div>
         {/* Save Button */}
         <Button color="blue" ripple="light" onClick={this.handleSaveContent}>Next</Button>
       </div>
     );
   };
-  
+
 
   renderTeamContent = () => {
     return (
@@ -303,26 +328,26 @@ class CreateCampaign extends Component {
             <label className="label-left">Who are you raising money for?<span className="required">*</span></label>
             <p className="para-left">Choose the type of account that will be receiving your funds.</p>
             <div className="row">
-            <div style={{ marginRight: '10px' }}>
-              <input
-                type="radio"
-                id="businessType1"
-                name="businessType"
-                value="type1"
-                onChange={this.handleChange}
-              />
-              <label className="lll" htmlFor="businessType1">Individual</label>
-            </div>
-            <div style={{ marginRight: '10px' }}>
-              <input
-                type="radio"
-                id="businessType2"
-                name="businessType"
-                value="type2"
-                onChange={this.handleChange}
-              />
-              <label htmlFor="businessType2">Business or Non Profit</label>
-            </div>
+              <div style={{ marginRight: '10px' }}>
+                <input
+                  type="radio"
+                  id="businessType1"
+                  name="businessType"
+                  value="type1"
+                  onChange={this.handleChange}
+                />
+                <label className="lll" htmlFor="businessType1">Individual</label>
+              </div>
+              <div style={{ marginRight: '10px' }}>
+                <input
+                  type="radio"
+                  id="businessType2"
+                  name="businessType"
+                  value="type2"
+                  onChange={this.handleChange}
+                />
+                <label htmlFor="businessType2">Business or Non Profit</label>
+              </div>
             </div>
           </div>
           <div className="form-group" style={{ width: '200px' }}>
@@ -371,29 +396,29 @@ class CreateCampaign extends Component {
   render() {
     return (
       <>
-      <NavBarHook/>
-      <div className="container-fluid">
-        {/* Include the sidebar component */}
-        <div className="row">
-          <div className="col-md-3">
-            <SideBar
-              activeItem={this.state.activeItem}
-              onItemClick={this.handleItemClick}
-            />
-          </div>
-          <div className="col-md-9">
-            {/* Render content based on active item */}
-            {this.state.activeItem === "basic" && this.renderBasicContent()}
-            {this.state.activeItem === "content" && this.renderContentContent()}
-            {this.state.activeItem === "team" && this.renderTeamContent()}
-            {this.state.activeItem === "funding" && this.renderFundingContent()}
+        <NavBarHook />
+        <div className="container-fluid">
+          {/* Include the sidebar component */}
+          <div className="row">
+            <div className="col-md-3">
+              <SideBar
+                activeItem={this.state.activeItem}
+                onItemClick={this.handleItemClick}
+              />
+            </div>
+            <div className="col-md-9">
+              {/* Render content based on active item */}
+              {this.state.activeItem === "basic" && this.renderBasicContent()}
+              {this.state.activeItem === "content" && this.renderContentContent()}
+              {this.state.activeItem === "team" && this.renderTeamContent()}
+              {this.state.activeItem === "funding" && this.renderFundingContent()}
+            </div>
           </div>
         </div>
-      </div>
       </>
     );
   }
 }
 
- export default CreateCampaign;
+export default CreateCampaign;
 

@@ -31,6 +31,18 @@ async function initialize() {
   db.User = require("../profile/user.model")(
     sequelize
   );
+  db.Campaign = require("../campaign/campaign.model")(
+    sequelize
+  );
+  db.Funding = require("../funding/funding.model")(
+    sequelize
+  );
+  db.Category = require("../category/category.model")(
+    sequelize
+  );
+  db.Team = require("../team/team.model")(
+    sequelize
+  );
   // Import Campaign and Funding models
   const Campaign = require("../campaign/campaign.model")(sequelize);
   const Funding = require("../funding/funding.model")(sequelize);

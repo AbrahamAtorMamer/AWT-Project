@@ -5,6 +5,8 @@ const crypto = require('crypto');
 const register = require('./src/profile/user.routes');
 const campaign = require('./src/campaign/campaign.routes');
 const funding = require('./src/funding/funding.routes');
+const category = require('./src/category/category.routes');
+const team = require('./src/team/team.routes');
 const error = require('./src/middleware/error');
 const auth = require("./auth");
 const app = express();
@@ -15,6 +17,8 @@ app.use(express.json());
 app.use("/users",register);
 app.use("/campaign",campaign);
 app.use("/funding",funding);
+app.use("/category",category);
+app.use("/team",team);
 app.use(error.errorHandler);
 
 // Function to generate a random secure token

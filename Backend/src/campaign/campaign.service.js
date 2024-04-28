@@ -13,11 +13,11 @@ module.exports = {
 
 async function getAll() {
   return await db.Campaign.findAll({
-    include: [
-      {
-        model: db.Category,
-      },
-    ],
+    // include: [
+    //   {
+    //     model: db.Category,
+    //   },
+    // ],
   });
 }
 
@@ -30,22 +30,41 @@ async function getById(id, callback) {
       return callback(error);
     });
 }
-
 async function create(params) {
-  const { campaign_name, ...campaignParams } = params;
-  const existingCampaign = await db.Campaign.findOne({ where: { campaign_name } });
-  if (existingCampaign) {
-    return "Campaign " + campaign_name + " already exists";
-  }
+  // Check if user with the same email already exists
+  // const existingCampaign = await db.Campaign.findOne({ where: { campaign_title } });
+  // if (existingCampaign) {
+  //   return "Campaign " + campaign_title + " already exists";
+  // }
 
-  let campaign;
-  try {
-    campaign = await db.Campaign.create(campaignParams);
-    return campaign;
-  } catch (error) {
-    return error;
-  }
+  // Create a new campaign
+  const newCampaign = new db.Campaign({ campaign_title: params.campaign_title, 
+    campaign_description: params.campaign_description, 
+    campaign_image: params.campaign_image, campaign_location: params.campaign_location, 
+    campaign_category: params.campaign_category, campaign_duration: params.
+    campaign_duration });
+
+  // Save the user to the database
+  await newCampaign.save()
+
+
+  return newCampaign;
 }
+// async function create(params) {
+//   const { campaign_name, ...campaignParams } = params;
+//   // const existingCampaign = await db.Campaign.findOne({ where: { campaign_name } });
+//   // if (existingCampaign) {
+//   //   return "Campaign " + campaign_name + " already exists";
+//   // }
+
+//   let campaign;
+//   try {
+//     campaign = await db.Campaign.create(campaignParams);
+//     return campaign;
+//   } catch (error) {
+//     return error;
+//   }
+// }
 
 async function update(id, params) {
   const campaign = await getCampaign(id);

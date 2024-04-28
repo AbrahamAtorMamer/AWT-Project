@@ -4,11 +4,11 @@ module.exports = model;
 
 function model(sequelize) {
   const attributes = {
-    content_name: {
+    category_name: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    content_id: {
+    category_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true

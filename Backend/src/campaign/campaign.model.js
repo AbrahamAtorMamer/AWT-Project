@@ -35,7 +35,7 @@ function model(sequelize) {
     },
   };
 
-  const Campaign = sequelize.define("campaign", attributes);
+  const Campaign = sequelize.define("Campaign", attributes);
   Campaign.associate = () => {
     Campaign.hasOne(Funding);
   };
