@@ -30,14 +30,16 @@ module.exports = {
 
 async function create(params) {
   const { campaign_id, ...fundingParams } = params;
-  const existingFunding = await db.Funding.findOne({ where: { funding_type: fundingParams.funding_type } });
-  if (existingFunding) {
-    return "Funding type " + fundingParams.funding_type + " already exists";
-  }
+
+  console.log("campaign_id:", campaign_id); // Log campaign_id to check its value
 
   let funding;
   try {
-    funding = await db.Funding.create(fundingParams);
+    funding = await db.Funding.create({
+      ...fundingParams,
+      campaign_id: campaign_id // Ensure campaign_id is included in the creation params
+    });
+
     if (campaign_id) {
       const campaign = await db.Campaign.findByPk(campaign_id);
       if (campaign) {
@@ -49,6 +51,7 @@ async function create(params) {
     return error;
   }
 }
+
 
 async function getById(id) {
   const funding = await db.Funding.findByPk(id);

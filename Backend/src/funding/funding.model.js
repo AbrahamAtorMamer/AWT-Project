@@ -21,14 +21,12 @@ function model(sequelize) {
         type: DataTypes.STRING,
         allowNull: false
       },
+
   };
 
   const Funding = sequelize.define("Funding", attributes)
-  Funding.associate = () => {
-    Funding.belongsTo(Campaign);
-  };
-  return Funding;
+  Funding.belongsTo(Campaign, { foreignKey: 'campaign_id' });
 
-  //return sequelize.define("funding", attributes);
+  return Funding;
 }
 

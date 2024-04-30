@@ -36,9 +36,8 @@ function model(sequelize) {
   };
 
   const Campaign = sequelize.define("Campaign", attributes);
-  Campaign.associate = () => {
-    Campaign.hasOne(Funding);
-  };
+  Campaign.hasOne(Funding, { foreignKey: 'campaign_id' });
+
   return Campaign;
 }
 
