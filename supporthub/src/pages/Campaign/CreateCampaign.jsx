@@ -72,6 +72,28 @@ class CreateCampaign extends Component {
         console.error("Error fetching countries:", error);
       });
   }
+  sendCampaignDetails = () => {
+    const campaignData = {
+      campaignName: this.state.campaignName,
+      campaignDescription: this.state.campaignDescription,
+      campaignCardImage: this.state.campaignCardImage,
+      campaignLocation: this.state.campaignLocation,
+      campaignCategory: this.state.campaignCategory,
+      campaignDuration: this.state.campaignDuration,
+      // Include other campaign details as needed
+    };
+
+    axios.post("http://localhost:3000/campaign", campaignData)
+      .then(response => {
+        console.log("Campaign details sent successfully:", response.data);
+        // Optionally, perform any actions upon successful submission, such as redirecting to another page
+      })
+      .catch(error => {
+        console.error("Error sending campaign details:", error);
+        // Optionally, handle errors or display error messages to the user
+      });
+  };
+
 
   componentDidMount() {
     this.fetchCategories();
@@ -175,11 +197,11 @@ class CreateCampaign extends Component {
             >
               <option value="">Select Category</option>
               {/* Map through categories array to generate options */}
-              {this.state.categories.map(category => (
-                <option key={category.id} value={category.name}>
+              {/* {this.state.categories.map((category,index) => (
+                <option key={index} value={category.name}>
                   {category.name}
                 </option>
-              ))}
+              ))} */}
             </select>
           </div>
           <div className="form-group" >
@@ -198,7 +220,7 @@ class CreateCampaign extends Component {
           </div>
           {/* Add more input fields for other basic information */}
         </form>
-        <Button color="blue" >Save & Continue</Button>
+        <Button color="blue" onClick={this.sendCampaignDetails}>Save & Continue</Button>
       </div>
     );
   };
