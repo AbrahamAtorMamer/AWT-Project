@@ -1,6 +1,8 @@
 const db = require("../helpers/db.helper");
 const { Op } = require("sequelize");
-
+const multer = require("multer");
+const path = require("path");
+const { login } = require('../profile/user.controller');
 module.exports = {
   getAll,
   getById,
@@ -30,21 +32,79 @@ async function getById(id, callback) {
       return callback(error);
     });
 }
+// async function create(params, req) {
+  
+
+//   return new Promise((resolve, reject) => {
+//     upload(req, null, async function (err) {
+//       if (err instanceof multer.MulterError) {
+//         // A multer error occurred (e.g., file size exceeded)
+//         return reject(err);
+//       } else if (err) {
+//         // An unknown error occurred
+//         return reject(err);
+//       }
+
+//       // Multer middleware has successfully handled the file upload
+//       const userId = req.user_id;
+//       const newCampaign = new db.Campaign({
+//         campaign_title: params.campaign_title,
+//         campaign_description: params.campaign_description,
+//         campaign_image: req.file ? req.file.path : "", // Store file path in the database (assuming file upload succeeded)
+//         campaign_location: params.campaign_location,
+//         campaign_category: params.campaign_category,
+//         campaign_duration: params.campaign_duration,
+//         user_id: 1 
+//       });
+
+//       try {
+//         // Save the campaign to the database
+//         await newCampaign.save();
+//         resolve(newCampaign);
+//       } catch (error) {
+//         reject(error);
+//       }
+//     });
+//   });
+// }
+// Function to handle campaign creation
+// async function create(params) {
+//   try {
+//     // Call the login function to authenticate and retrieve user data
+//     const userData = await login(); // Assuming you have credentials
+//     console.log(userData);
+//     // Extract the user ID from userData
+//     const userId = userData.data.user.id;
+
+//     // Now you have the userId, you can proceed with creating the campaign
+//     const newCampaign = await create(params, userId); // Assuming create function takes userId
+
+//     // Return the created campaign
+//     return newCampaign;
+//   } catch (error) {
+//     // Handle errors
+//     console.error("Error:", error.message);
+//     throw error; // Rethrow the error to handle it at a higher level if needed
+//   }
+// }
 async function create(params) {
-  // Check if user with the same email already exists
-  // const existingCampaign = await db.Campaign.findOne({ where: { campaign_title } });
-  // if (existingCampaign) {
-  //   return "Campaign " + campaign_title + " already exists";
-  // }
 
-  // Create a new campaign
-  const newCampaign = new db.Campaign({ campaign_title: params.campaign_title, 
+// Call the login function to authenticate and retrieve user data
+     const userData = await login(); // Assuming you have credentials
+     console.log(userData);
+//     // Extract the user ID from userData
+    const userId = userData.data.user.id;
+  const newCampaign = new db.Campaign({     
+    campaign_title: params.campaign_title, 
     campaign_description: params.campaign_description, 
-    campaign_image: params.campaign_image, campaign_location: params.campaign_location, 
-    campaign_category: params.campaign_category, campaign_duration: params.
-    campaign_duration });
+    campaign_image: params.campaign_image, 
+    campaign_location: params.campaign_location, 
+    campaign_category: params.campaign_category, 
+    campaign_duration: params.campaign_duration,
+    user_id: userId 
+   });
 
-  // Save the user to the database
+  // Save the campaign to the database
   await newCampaign.save()
 
 
@@ -115,3 +175,26 @@ async function del(id) {
     },
   });
 }
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "Images"); // Specify the directory to store uploaded files
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Use the original filename for uploaded files
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1000000 }, // 1 MB file size limit
+  fileFilter: (req, file, cb) => {
+    const fileTypes = /jpeg|jpg|png|gif/;
+    const mimeType = fileTypes.test(file.mimetype);
+    const extname = fileTypes.test(path.extname(file.originalname));
+
+    if (mimeType && extname) {
+      return cb(null, true);
+    }
+    cb("Give proper files format to upload");
+  },
+}).single("image");

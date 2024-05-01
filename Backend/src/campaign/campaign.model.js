@@ -1,5 +1,7 @@
 const { DataTypes } = require("sequelize");
-const Funding = require("../funding/funding.model")
+const User = require("../profile/user.model"); // Import the User model
+const Funding = require("../funding/funding.model");
+
 module.exports = model;
 
 function model(sequelize) {
@@ -18,7 +20,7 @@ function model(sequelize) {
       autoIncrement: true
     },
     campaign_image: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING,
       allowNull: false
     },
     campaign_location: {
@@ -33,11 +35,22 @@ function model(sequelize) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    user_id: {
+      type: DataTypes.INTEGER, // Assuming user_id is of type INTEGER
+      allowNull: false
+    }
   };
 
   const Campaign = sequelize.define("Campaign", attributes);
-  Campaign.hasOne(Funding, { foreignKey: 'campaign_id' });
+
+  // Establishing association with User model
+  // Campaign.belongsTo(User, {
+  //   foreignKey: "user_id",
+  //   as: "User"
+  // });
+
+  // Add association with Funding model if needed
+  // Campaign.hasOne(Funding, { foreignKey: 'campaign_id' });
 
   return Campaign;
 }
-

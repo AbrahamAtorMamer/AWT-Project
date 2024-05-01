@@ -17,7 +17,8 @@ async function getAll() {
   return await db.User.findAll({
     include: [
       {
-        model: db.Category,
+        model: db.Campaign,
+        as: "Campaigns"
       },
     ],
   });

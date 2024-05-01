@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.config');
+const Campaign = require("../campaign/campaign.model");
 
 module.exports = model;
 
@@ -23,8 +24,8 @@ function model(sequelize) {
       allowNull: false
     }
   };
-  return sequelize.define("user", attributes);
+
+  const User = sequelize.define("User", attributes);
+
+  return User;
 }
-
-
-

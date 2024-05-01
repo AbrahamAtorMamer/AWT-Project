@@ -5,7 +5,7 @@ const { MYSQL_DB_CONFIG } = require("../config/db.config");
 const mysql = require("mysql2/promise");
 
 //for Sequelize ORM
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 
 module.exports = db = {};
 
@@ -29,26 +29,45 @@ async function initialize() {
   });
 
   db.User = require("../profile/user.model")(
-    sequelize
+    sequelize, DataTypes
   );
   db.Campaign = require("../campaign/campaign.model")(
-    sequelize
+    sequelize, DataTypes
   );
   db.Funding = require("../funding/funding.model")(
-    sequelize
+    sequelize, DataTypes
   );
   db.Category = require("../category/category.model")(
-    sequelize
+    sequelize, DataTypes
   );
   db.Team = require("../team/team.model")(
-    sequelize
+    sequelize, DataTypes
   );
-  // Import Campaign and Funding models
-  const Campaign = require("../campaign/campaign.model")(sequelize);
-  const Funding = require("../funding/funding.model")(sequelize);
 
-  // Define associations
-  Campaign.hasOne(Funding, { foreignKey: 'campaign_id' });
-  Funding.belongsTo(Campaign, { foreignKey: 'campaign_id' });
+  // Defining associations
+  db.User.hasMany(db.Campaign, {
+    foreignKey: "user_id",
+    as: "Campaigns"
+  });
+  db.Campaign.belongsTo(db.User, {
+    foreignKey: "user_id",
+    as: "User"
+  });
+  db.Campaign.hasOne(db.Funding, { 
+    foreignKey: "campaign_id",
+    as: "Funding" });
+  db.Funding.belongsTo(db.Campaign, { 
+    foreignKey: "campaign_id",
+    as: "Campaign"
+   });
+   db.Campaign.hasOne(db.Funding, { 
+    foreignKey: "campaign_id",
+    as: "Team" });
+  db.Team.belongsTo(db.Campaign, { 
+    foreignKey: "campaign_id",
+    as: "Campaign"
+   });
   await sequelize.sync({ alter: false });
+
+ 
 }

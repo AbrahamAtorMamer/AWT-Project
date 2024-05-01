@@ -25,7 +25,7 @@ function model(sequelize) {
   };
 
   const Funding = sequelize.define("Funding", attributes)
-  Funding.belongsTo(Campaign, { foreignKey: 'campaign_id' });
+  //Funding.belongsTo(Campaign, { foreignKey: 'campaign_id' });
 
   return Funding;
 }

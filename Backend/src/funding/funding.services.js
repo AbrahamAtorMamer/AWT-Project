@@ -81,7 +81,14 @@ async function update(id, params) {
 }
 
 async function getAll() {
-  return await db.Funding.findAll();
+  return await db.Funding.findAll({
+    include: [
+      {
+        model: db.Campaign,
+        as: "Campaign"
+      },
+    ],
+  });
 }
 
 async function _delete(id) {
