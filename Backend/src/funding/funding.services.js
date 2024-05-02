@@ -1,5 +1,5 @@
 const db = require('../helpers/db.helper');
-
+const campaignController = require("../campaign/campaign.controller");
 module.exports = {
   create,
   getById,
@@ -29,28 +29,19 @@ module.exports = {
 // }
 
 async function create(params) {
-  const { campaign_id, ...fundingParams } = params;
-
-  console.log("campaign_id:", campaign_id); // Log campaign_id to check its value
 
   let funding;
   try {
     funding = await db.Funding.create({
-      ...fundingParams,
-      campaign_id: campaign_id // Ensure campaign_id is included in the creation params
+      ...params // Ensure campaign_id is included in the creation params
     });
 
-    if (campaign_id) {
-      const campaign = await db.Campaign.findByPk(campaign_id);
-      if (campaign) {
-        await funding.setCampaign(campaign);
-      }
-    }
     return funding;
   } catch (error) {
     return error;
   }
 }
+
 
 
 async function getById(id) {

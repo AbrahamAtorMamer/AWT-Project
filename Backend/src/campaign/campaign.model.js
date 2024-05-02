@@ -43,14 +43,5 @@ function model(sequelize) {
 
   const Campaign = sequelize.define("Campaign", attributes);
 
-  // Establishing association with User model
-  // Campaign.belongsTo(User, {
-  //   foreignKey: "user_id",
-  //   as: "User"
-  // });
-
-  // Add association with Funding model if needed
-  // Campaign.hasOne(Funding, { foreignKey: 'campaign_id' });
-
   return Campaign;
 }

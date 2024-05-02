@@ -1,4 +1,40 @@
+const fs = require('fs');
+const path = require('path');
 const campaign_service = require("../campaign/campaign.service");
+
+// Function to generate and store campaign ID in a JSON file
+const storeCampaignId = (campaignId) => {
+  const filePath = path.join(__dirname, 'campaign_id.json');
+  const data = JSON.stringify({ campaignId });
+
+  fs.writeFile(filePath, data, (err) => {
+      if (err) {
+          console.error('Error storing campaign ID:', err);
+      } else {
+          console.log('Campaign ID stored successfully:', campaignId);
+      }
+  });
+};
+
+exports.createId = async (params) => {
+try {
+  // Call the campaign service to create the campaign
+  const response = await campaign_service.create(params);
+  
+  // Assuming response contains the created object with an 'id' property
+  const id = response.campaign_id;
+  
+  // Store the retrieved ID
+  storeCampaignId(id);
+  
+  // Return the campaign ID directly
+  return id;
+} catch (error) {
+  console.error("Error creating campaign:", error);
+  throw error;
+}
+};
+
 exports.create = (req, res, next) => {
   campaign_service
     .create(req.body)
