@@ -14,19 +14,27 @@ const port = parseInt(process.env.PORT);
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+//User Registration and Authentication routes
 app.use("/users",register);
+
+//Campaign creation routes
 app.use("/campaign",campaign);
 app.use("/funding",funding);
 app.use("/category",category);
 app.use("/team",team);
 app.use(error.errorHandler);
 
+//static Images Folder
+
+app.use('/Images', express.static('./Images'))
 // Function to generate a random secure token
 const generateSecretKey = () => {
   return crypto.randomBytes(64).toString('hex');
 };
 
-// Set the secret key as an environment variable
+// Setting the secret key as an environment variable
 process.env.JWT_SECRET = generateSecretKey();
 
 app.get("/", (req, res) => res.send("Vipi Dunia"));

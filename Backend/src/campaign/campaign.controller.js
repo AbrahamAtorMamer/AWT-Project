@@ -1,6 +1,27 @@
 const fs = require('fs');
 const path = require('path');
+const db = require("../helpers/db.helper");
+const multer = require("multer");
 const campaign_service = require("../campaign/campaign.service");
+
+
+const addCampaign = async (req, res) => {
+
+      let info = {
+        campaign_title: req.body.campaign_title,
+        campaign_description: req.body.campaign_description,
+        campaign_image: req.file.path, // Set the file path as campaign image
+        campaign_location: req.body.campaign_location,
+        campaign_category: req.body.campaign_category,
+        campaign_duration: req.body.campaign_duration,
+        user_id: 1
+      }
+
+  const campaign = await db.Campaign.create(info)
+  res.status(200).send(campaign)
+  console.log(campaign)
+
+}
 
 // Function to generate and store campaign ID in a JSON file
 const storeCampaignId = (campaignId) => {
@@ -16,7 +37,7 @@ const storeCampaignId = (campaignId) => {
   });
 };
 
-exports.createId = async (params) => {
+const createId = async (params) => {
 try {
   // Call the campaign service to create the campaign
   const response = await campaign_service.create(params);
@@ -35,7 +56,7 @@ try {
 }
 };
 
-exports.create = (req, res, next) => {
+const create = (req, res, next) => {
   campaign_service
     .create(req.body)
     .then((response) =>
@@ -46,7 +67,7 @@ exports.create = (req, res, next) => {
     )
     .catch(next);
 };
-exports.findAll = (req, res, next) => {
+const findAll = (req, res, next) => {
   campaign_service
     .getAll()
     .then((response) =>
@@ -57,7 +78,7 @@ exports.findAll = (req, res, next) => {
     )
     .catch(next);
 };
-exports.findOne = (req, res, next) => {
+const findOne = (req, res, next) => {
   campaign_service.getById(req.params.id, (error, response) => {
     if (error) {
       return next(error);
@@ -69,7 +90,7 @@ exports.findOne = (req, res, next) => {
     }
   });
 };
-exports.update = (req, res, next) => {
+const update = (req, res, next) => {
   campaign_service
     .update(req.params.id, req.body)
     .then((response) =>
@@ -80,7 +101,7 @@ exports.update = (req, res, next) => {
     )
     .catch(next);
 };
-exports.delete = (req, res, next) => {
+const _delete = (req, res, next) => {
   campaign_service
     .changeStatus(req.params.id)
     .then((response) =>
@@ -88,7 +109,7 @@ exports.delete = (req, res, next) => {
     )
     .catch(next);
 };
-exports.search = (req, res, next) => {
+const search = (req, res, next) => {
   campaign_service
     .searchByKeyword(req.params.keyword)
     .then((response) =>
@@ -100,7 +121,7 @@ exports.search = (req, res, next) => {
     .catch(next);
 };
 
-exports.del = (req, res, next) => {
+const del = (req, res, next) => {
   campaign_service
     .del(req.params.id)
     .then((response) =>
@@ -108,3 +129,42 @@ exports.del = (req, res, next) => {
     )
     .catch(next);
 };
+
+// 8. Upload Image Controller
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'Images')
+  },
+  filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: '1000000' },
+  fileFilter: (req, file, cb) => {
+      const fileTypes = /jpeg|jpg|png|gif/
+      const mimeType = fileTypes.test(file.mimetype)  
+      const extname = fileTypes.test(path.extname(file.originalname))
+
+      if(mimeType && extname) {
+          return cb(null, true)
+      }
+      cb('Give proper files formate to upload')
+  }
+}).single('campaign_image')
+
+module.exports = {
+addCampaign,
+create,
+createId,
+_delete,
+update,
+findAll,
+findOne,
+search,
+del,
+upload,
+}
