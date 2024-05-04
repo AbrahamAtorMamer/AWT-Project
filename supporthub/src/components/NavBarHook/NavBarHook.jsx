@@ -103,7 +103,7 @@ const NavBarHook = () => {
               <span>Log In</span>
             </Button>
             </NavLink>
-            <NavLink to="/" className="flex items-center">
+            <NavLink to="/login" className="flex items-center">
             {/* <Button fullWidth variant="gradient" size="sm" className="">
               <span>Sign in</span>
             </Button> */}

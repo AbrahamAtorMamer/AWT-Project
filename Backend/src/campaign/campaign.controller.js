@@ -10,7 +10,8 @@ const addCampaign = async (req, res) => {
       let info = {
         campaign_title: req.body.campaign_title,
         campaign_description: req.body.campaign_description,
-        campaign_image: req.file.path, // Set the file path as campaign image
+        campaign_amount: req.body.campaign_amount,
+        campaign_image: req.file.path,
         campaign_location: req.body.campaign_location,
         campaign_category: req.body.campaign_category,
         campaign_duration: req.body.campaign_duration,
@@ -37,24 +38,7 @@ const storeCampaignId = (campaignId) => {
   });
 };
 
-const createId = async (params) => {
-try {
-  // Call the campaign service to create the campaign
-  const response = await campaign_service.create(params);
-  
-  // Assuming response contains the created object with an 'id' property
-  const id = response.campaign_id;
-  
-  // Store the retrieved ID
-  storeCampaignId(id);
-  
-  // Return the campaign ID directly
-  return id;
-} catch (error) {
-  console.error("Error creating campaign:", error);
-  throw error;
-}
-};
+
 
 const create = (req, res, next) => {
   campaign_service
@@ -159,7 +143,6 @@ const upload = multer({
 module.exports = {
 addCampaign,
 create,
-createId,
 _delete,
 update,
 findAll,

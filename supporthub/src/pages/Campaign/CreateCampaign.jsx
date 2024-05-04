@@ -18,12 +18,13 @@ import { useNavigate } from "react-router-dom";
 
 const CreateCampaign = () => {
   const [activeItem, setActiveItem] = useState("basic");
-  const [campaignName, setCampaignName] = useState("");
-  const [campaignDescription, setCampaignDescription] = useState("");
-  const [campaignCardImage, setCampaignCardImage] = useState("");
-  const [campaignLocation, setCampaignLocation] = useState("");
-  const [campaignCategory, setCampaignCategory] = useState("");
-  const [campaignDuration, setCampaignDuration] = useState("");
+  const [campaign_title, setCampaignName] = useState("");
+  const [campaign_description, setCampaignDescription] = useState("");
+  const [campaign_amount, setCampaignAmount] = useState("");
+  const [campaign_image, setCampaignCardImage] = useState("");
+  const [campaign_location, setCampaignLocation] = useState("");
+  const [campaign_category, setCampaignCategory] = useState("");
+  const [campaign_duration, setCampaignDuration] = useState("");
   const [teamFirstName, setTeamFirstName] = useState("");
   const [teamLastName, setTeamLastName] = useState("");
   const [teamDOB, setTeamDOB] = useState("");
@@ -51,10 +52,6 @@ const CreateCampaign = () => {
       });
   }
 
-  const handleCategoryChange = (event) => {
-    setCampaignCategory(event.target.value);
-  }
-
   const fetchCountries = () => {
     fetch("https://restcountries.com/v3.1/all")
       .then((response) => response.json())
@@ -68,27 +65,6 @@ const CreateCampaign = () => {
       });
   }
 
-  // const sendCampaignDetails = () => {
-  //   const formData = new FormData();
-  //   formData.append('campaignName', campaignName);
-  //   formData.append('campaignDescription', campaignDescription);
-  //   formData.append('campaignLocation', campaignLocation);
-  //   formData.append('campaignCategory', campaignCategory);
-  //   formData.append('campaignDuration', campaignDuration);
-  //   formData.append('campaignCardImage', campaignCardImage);
-
-  //   axios.post("http://localhost:3000/campaign", formData, {
-  //     headers: { "Content-Type": "multipart/form-data" },
-  //   })
-  //     .then(response => {
-  //       console.log("Campaign details sent successfully:", response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error("Error sending campaign details:", error);
-  //     });
-
-  //     navigate("/dashboard");
-  // };
 
   const sendCampaignDetails = async (e) => {
 
@@ -96,12 +72,13 @@ const CreateCampaign = () => {
 
     const formData = new FormData()
 
-    formData.append('campaignName', campaignName);
-    formData.append('campaignDescription', campaignDescription);
-    formData.append('campaignLocation', campaignLocation);
-    formData.append('campaignCategory', campaignCategory);
-    formData.append('campaignDuration', campaignDuration);
-    formData.append('campaignCardImage', campaignCardImage);
+    formData.append('campaign_title', campaign_title);
+    formData.append('campaign_description', campaign_description);
+    formData.append('campaign_amount', campaign_amount);
+    formData.append('campaign_location', campaign_location);
+    formData.append('campaign_category', campaign_category);
+    formData.append('campaign_duration', campaign_duration);
+    formData.append('campaign_image', campaign_image);
 
     await axios.post("http://localhost:3000/campaign", formData, {
     })
@@ -126,22 +103,25 @@ const CreateCampaign = () => {
     // Use a single handler function for all input changes
     const { name, value } = e.target;
     switch (name) {
-      case "campaignName":
+      case "campaign_title":
         setCampaignName(value);
         break;
-      case "campaignDescription":
+      case "campaign_description":
         setCampaignDescription(value);
         break;
-      case "campaignCardImage":
+      case "campaign_amount":
+        setCampaignAmount(value);
+        break;
+      case "campaign_image":
         setCampaignCardImage(e.target.files[0]);
         break;
-      case "campaignLocation":
+      case "campaign_location":
         setCampaignLocation(value);
         break;
-      case "campaignCategory":
+      case "campaign_category":
         setCampaignCategory(value);
         break;
-      case "campaignDuration":
+      case "campaign_duration":
         setCampaignDuration(value);
         break;
       case "teamFirstName":
@@ -183,40 +163,52 @@ const CreateCampaign = () => {
         </p> */}
         <form onSubmit={sendCampaignDetails} method="POST" encType='multipart/form-data'>
           <div className="form-group" style={{ width: '700px' }}>
-            <label className="label-left" htmlFor="campaignName">Campaign Title<span className="required">*</span></label>
+            <label className="label-left" htmlFor="campaign_title">Campaign Title<span className="required">*</span></label>
             <p className="para-left">What is the title of your campaign?</p>
             <input
               type="text"
               className="form-control"
-              id="campaignName"
-              name="campaignName"
-              value={campaignName}
+              id="campaign_title"
+              name="campaign_title"
+              value={campaign_title}
               onChange={handleChange}
             />
           </div>
           <div className="form-group" style={{ width: '700px' }}>
-            <label className="label-left" htmlFor="campaignDescription">Campaign Description<span className="required">*</span></label>
+            <label className="label-left" htmlFor="campaign_description">Campaign Description<span className="required">*</span></label>
             <p className="para-left">Provide a short description that best describes your campaign to your audience.</p>
             <textarea
               className="form-control"
-              id="campaignDescription"
-              name="campaignDescription"
-              value={campaignDescription}
+              id="campaign_description"
+              name="campaign_description"
+              value={campaign_description}
               onChange={handleChange}
             ></textarea>
           </div>
+          <div className="form-group" style={{ width: '700px' }}>
+            <label className="label-left" htmlFor="campaign_description">Campaign Amount<span className="required">*</span></label>
+            <p className="para-left"></p>
+            <input
+             type="number"
+              className="form-control"
+              id="campaign_amount"
+              name="campaign_amount"
+              value={campaign_amount}
+              onChange={handleChange}
+              />
+          </div>
           <div className="form-group">
-            <label htmlFor="campaignCardImage" className="label-left">
+            <label htmlFor="campaign_image" className="label-left">
               Campaign Card Image<span className="required">*</span>:
             </label>
             <div className="square-box">
-              <label htmlFor="campaignCardImage" className="upload-label">
+              <label htmlFor="campaign_image" className="upload-label">
                 <i className="fas fa-camera"></i>
                 Upload Image
                 <input
                   type="file"
-                  id="campaignCardImage"
-                  name="campaignCardImage"
+                  id="campaign_image"
+                  name="campaign_image"
                   onChange={handleImageChange}
                   accept="image/*"
                 />
@@ -226,7 +218,7 @@ const CreateCampaign = () => {
 
 
           <div className="form-group" style={{ width: '700px' }}>
-            <label className="label-left" htmlFor="campaignLocation">
+            <label className="label-left" htmlFor="campaign_location">
               Location<span className="required">*</span>
             </label>
             <p className="para-left">
@@ -235,9 +227,9 @@ const CreateCampaign = () => {
             </p>
             <select
               className="form-control"
-              id="campaignLocation"
-              name="campaignLocation"
-              value={campaignLocation}
+              id="campaign_location"
+              name="campaign_location"
+              value={campaign_location}
               onChange={handleChange}
             >
               <option value="">Select Location</option>
@@ -251,14 +243,14 @@ const CreateCampaign = () => {
           </div>
 
           <div className="form-group" style={{ width: '400px' }}>
-            <label className="label-left" htmlFor="campaignCategory">Category<span className="required">*</span></label>
+            <label className="label-left" htmlFor="campaign_category">Category<span className="required">*</span></label>
             <p className="para-left">To help backers find your campaign, select a category that best represents your project.</p>
 
             <select
               className="form-control"
-              id="campaignCategory"
-              name="campaignCategory"
-              value={campaignCategory}
+              id="campaign_category"
+              name="campaign_category"
+              value={campaign_category}
               onChange={handleChange}
             >
               <option value="">Select Category</option>
@@ -270,20 +262,20 @@ const CreateCampaign = () => {
             </select>
           </div>
           <div className="form-group" >
-            <label className="label-left" htmlFor="campaignDuration">Campaign Duration (in days)<span className="required">*</span></label>
+            <label className="label-left" htmlFor="campaign_duration">Campaign Duration (in days)<span className="required">*</span></label>
             {/* <p className="para-left">How many days will you be running your campaign for? You can run a campaign for any number of days, with a 60 day duration maximum.</p> */}
             <div style={{ width: '200px', height: '100px' }}>
               <input
                 type="number"
                 className="form-control"
-                id="campaignDuration"
-                name="campaignDuration"
-                value={campaignDuration}
+                id="campaign_duration"
+                name="campaign_duration"
+                value={campaign_duration}
                 onChange={handleChange}
               />
             </div>
           </div>
-          {/* Add more input fields for other basic information */}
+          
         </form>
         <Button color="blue" onClick={sendCampaignDetails}>Save & Continue</Button>
       </div>

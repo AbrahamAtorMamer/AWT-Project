@@ -6,6 +6,11 @@ module.exports = model;
 
 function model(sequelize) {
   const attributes = {
+    campaign_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     campaign_title: {
       type: DataTypes.STRING,
       allowNull: false
@@ -14,10 +19,9 @@ function model(sequelize) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    campaign_id: {
+    campaign_amount:{
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+      allowNull: false
     },
     campaign_image: {
       type: DataTypes.STRING,
@@ -36,7 +40,7 @@ function model(sequelize) {
       allowNull: false
     },
     user_id: {
-      type: DataTypes.INTEGER, // Assuming user_id is of type INTEGER
+      type: DataTypes.INTEGER, 
       allowNull: false
     }
   };

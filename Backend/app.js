@@ -2,19 +2,22 @@ require('dotenv').config();
 const express = require('express');
 const cors = require("cors");
 const crypto = require('crypto');
+const Razorpay = require('razorpay');
 const register = require('./src/profile/user.routes');
 const campaign = require('./src/campaign/campaign.routes');
 const funding = require('./src/funding/funding.routes');
 const category = require('./src/category/category.routes');
 const team = require('./src/team/team.routes');
 const error = require('./src/middleware/error');
-const auth = require("./auth");
 const app = express();
 const port = parseInt(process.env.PORT);
+const payment = require("./src/payment/payment.route")
+const instance = require("./src/helpers/razorpay");
 
+instance;
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
 
 //User Registration and Authentication routes
 app.use("/users",register);
@@ -26,6 +29,17 @@ app.use("/category",category);
 app.use("/team",team);
 app.use(error.errorHandler);
 
+//
+
+// Use payment router
+// Routes
+app.use("/payment", payment);
+
+// Route to get Razorpay API key
+app.get("/payment/getkey", (req, res) =>
+  res.status(200).json({ key: process.env.RAZORPAY_KEY_ID })
+);
+// app.use('/payment', payment);
 //static Images Folder
 
 app.use('/Images', express.static('./Images'))

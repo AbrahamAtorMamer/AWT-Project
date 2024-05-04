@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import cybertruck from '../../assets/images/powerwall.jpeg';
+import transport from '../../assets/images/Transport.jpg';
+import logo from '../../assets/images/S.png';
 import {
   Card,
   CardHeader,
@@ -12,6 +13,7 @@ import NavBarHook from '../../components/NavBarHook/NavBarHook';
 import axios from "axios";
 
 const Dashboard = () => {
+
 
   const [campaigns, setCampaigns] = useState([]);
 
@@ -29,15 +31,55 @@ const Dashboard = () => {
         console.error('Error fetching campaigns:', error);
       });
   }
+
+
+  const checkoutHandler = async (amount) => {
+
+    const { data: { key } } = await axios.get("http://localhost:3000/payment/getkey")
+
+    const { data: { order } } = await axios.post("http://localhost:3000/payment/checkout", {
+        amount
+    })
+
+    const options = {
+        key,
+        amount: order.amount,
+        currency: "INR",
+        name: "SupportHub",
+        description: "SupportHub Payment Gateway",
+        image: logo,
+        order_id: order.id,
+        callback_url: "http://localhost:3000/payment/paymentverification",
+        prefill: {
+            name: "Ator Abraham",
+            email: "atoragau@gmail.com",
+            contact: "9624343593"
+        },
+        notes: {
+            "address": "Razorpay Corporate Office"
+        },
+        theme: {
+            "color": "#121212"
+        }
+    };
+    const razor = new window.Razorpay(options);
+    razor.open();
+}
+
+
   return (
     <>
       <NavBarHook />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-6">
         {campaigns.map((campaign, id) => (
           <Card key={campaign.campaign_id} className="w-full">
             <CardHeader shadow={false} floated={false} className="h-96">
               <img
-                src="https://images.unsplash.com/photo-1629367494173-c78a56567877?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80"
+                src={transport}
                 alt="card-image"
                 className="h-full w-full object-cover"
               />
@@ -48,7 +90,8 @@ const Dashboard = () => {
                 {campaign.campaign_title}
                 </Typography>
                 <Typography color="blue-gray" className="font-medium">
-                  $95.00
+                  Capital:
+                ${campaign.campaign_amount}
                 </Typography>
               </div>
               <Typography
@@ -61,12 +104,13 @@ const Dashboard = () => {
             </CardBody>
             <CardFooter className="pt-0">
               <Button
-                variant="gradient"
+              onClick={() => checkoutHandler(100)}
+                variant="white"
                 ripple={false}
                 fullWidth={true}
                 className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
               >
-                Add to Cart
+                Make Contribution
               </Button>
             </CardFooter>
           </Card>

@@ -66,41 +66,6 @@ async function create(params) {
   
 }
 
-// async function create(params) {
-//   const { user_id, ...campaignParams } = params;
-
-//   console.log("user_id:", user_id); // Log user_id to check its value
-
-//   try {
-//     // Validate if required fields are present and not null
-//     const requiredFields = ['campaign_title', 'campaign_description', 'campaign_image', 'campaign_location', 'campaign_category', 'campaign_duration'];
-//     for (const field of requiredFields) {
-//       if (!campaignParams[field]) {
-//         throw new Error(`Campaign.${field} cannot be null or empty`);
-//       }
-//     }
-
-//     // Create the campaign
-//     const campaign = await db.Campaign.create({
-//       ...campaignParams,
-//       user_id: user_id // Ensure user_id is included in the creation params
-//     });
-
-//     // If user_id exists, associate user with campaign
-//     if (user_id) {
-//       const user = await db.User.findByPk(user_id);
-//       if (user) {
-//         await campaign.setUser(user);
-//       }
-//     }
-
-//     return campaign;
-//   } catch (error) {
-//     return error;
-//   }
-// }
-
-
 
 async function getById(id) {
   const campaign = await db.Campaign.findByPk(id);

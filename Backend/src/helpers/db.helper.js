@@ -43,6 +43,9 @@ async function initialize() {
   db.Team = require("../team/team.model")(
     sequelize, DataTypes
   );
+  db.Payment = require("../payment/payment.model")(
+    sequelize, DataTypes
+  );
 
   // Defining associations
   db.User.hasMany(db.Campaign, {
@@ -64,6 +67,14 @@ async function initialize() {
     foreignKey: "campaign_id",
     as: "Team" });
   db.Team.belongsTo(db.Campaign, { 
+    foreignKey: "campaign_id",
+    as: "Campaign"
+   });
+
+   db.Campaign.hasOne(db.Payment, { 
+    foreignKey: "campaign_id",
+    as: "Payment" });
+  db.Payment.belongsTo(db.Campaign, { 
     foreignKey: "campaign_id",
     as: "Campaign"
    });
